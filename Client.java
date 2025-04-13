@@ -5,6 +5,7 @@ public class Client extends Thread {
 
     static final String key = "12345";
     private Socket SocketClient = null;
+    private OutputStream out = null;
 
     public Client(String host, int port) {
         try {
@@ -18,5 +19,16 @@ public class Client extends Thread {
     public Socket getSocket() {
         return SocketClient;
     }
-}
 
+    public void handshake() {
+        try {
+            out = SocketClient.getOutputStream();
+            PrintWriter pw = new PrintWriter(out);
+            pw.write(key);
+            pw.close();
+        } catch (IOException e) {
+            System.err.print("Output Stream error");
+            e.printStackTrace();
+        }
+    }
+}
